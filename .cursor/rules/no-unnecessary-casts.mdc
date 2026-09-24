@@ -1,0 +1,33 @@
+---
+description: Avoid TypeScript type casts unless necessary
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# No unnecessary type casting
+
+Do not use `as` (or other casts) to silence the type checker. Prefer accurate types so property access is legal without assertions.
+
+Cast only when there is no sound alternative (e.g. a true boundary with unknown runtime shape that cannot be modeled).
+
+```ts
+// ❌ BAD — cast at every use site
+readonly #inner: globalThis.Request;
+
+get duplex() {
+  return (this.#inner as Request & { duplex?: "half" }).duplex;
+}
+
+// ✅ GOOD — widen the stored type once; callers need no cast
+type NativeRequest = globalThis.Request & {
+  duplex?: "half";
+};
+
+readonly #inner: NativeRequest;
+
+get duplex() {
+  return this.#inner.duplex;
+}
+```
+
+Do not cast through `any` or double-assert. Prefer narrowing (`instanceof`, typeof checks, generics) over `as`.

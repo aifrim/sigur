@@ -1,0 +1,38 @@
+{
+  "name": "@sigur/core",
+  "version": "0.1.0",
+  "description": "Result / ResultAsync — errors as values for JavaScript and TypeScript",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "result",
+    "error",
+    "errors-as-values",
+    "neverthrow",
+    "typescript"
+  ]
+}

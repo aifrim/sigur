@@ -1,0 +1,39 @@
+---
+description: Use blank lines to group related code
+globs: **/*.{ts,tsx,js,mjs}
+alwaysApply: false
+---
+
+# Whitespace grouping
+
+Use blank lines to separate logical groups. Do not pack unrelated steps into one dense block.
+
+Group by meaning, for example:
+
+- setup vs assertions
+- success case vs failure case
+- early-return checks vs the happy path
+- distinct scenarios inside one test
+
+```ts
+// ❌ BAD — mixed steps with no breathing room
+const result = sure(() => {
+	throw "raw";
+})();
+expect(result.isNotOkay()).toBe(true);
+if (result.isNotOkay()) {
+	expect(result.error.message).toBe("raw");
+}
+
+// ✅ GOOD — construct, then assert
+const result = sure(() => {
+	throw "raw";
+})();
+
+expect(result.isNotOkay()).toBe(true);
+if (result.isNotOkay()) {
+	expect(result.error.message).toBe("raw");
+}
+```
+
+Keep tightly related lines together (e.g. two expects about the same value). Prefer one blank line between groups; avoid double blanks.

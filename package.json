@@ -1,0 +1,30 @@
+{
+  "name": "sigur",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Errors as values for JavaScript and TypeScript",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "check": "pnpm -r run check",
+    "typecheck": "pnpm -r run typecheck",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write ."
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.22.0",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.4",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "^24.13.6",
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.4"
+  }
+}

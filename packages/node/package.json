@@ -1,0 +1,44 @@
+{
+  "name": "@sigur/node",
+  "version": "0.0.1",
+  "description": "Result-returning Node/JS globals for Sigur (JSON, fetch, URL, …)",
+  "keywords": [
+    "result",
+    "error",
+    "errors-as-values",
+    "sigur",
+    "node"
+  ],
+	"author": "Alexandru Ifrim <me@aifrim.com>",
+	"repository": "https://github.com/aifrim/sigur",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@sigur/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "24.*",
+    "typescript": "7.*",
+    "vitest": "3.*"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+}
