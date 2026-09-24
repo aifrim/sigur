@@ -2,7 +2,7 @@
 
 Errors as values for JavaScript and TypeScript — remove the need for `throw` / `try` / `catch` / `finally` by returning errors.
 
-**Sigur** ≈ “sure”: take something unsure, make the call sure. The main helper is `sure(fn)`.
+**Sigur** 🇷🇴 ≈ “sure”: take something unsure, make the call sure. The main helper is `sure(fn)`. I am sure that this won't `throw`.
 
 ## Why
 
@@ -165,4 +165,3 @@ if (result.isOkay()) {
 ```
 
 `sure` turns SDK throws and rejections into a `Result`. The success type is still whatever the SDK declared — a wrong shape will not become `Err` unless you validate (e.g. `parseData`) at your boundary.
-
