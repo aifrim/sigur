@@ -1,16 +1,8 @@
 # @sigur/node
 
-Result-returning mirrors of Node/JS **globals** (no `node:` imports) under `src/builtins`. Built on `sure` from [`@sigur/core`](https://www.npmjs.com/package/@sigur/core). Requires **Node >= 22**.
+Result-returning mirrors of Node/JS **globals** (no `node:` imports yet). Built on [`@sigur/core`](https://github.com/aifrim/sigur/tree/main/packages/core). Part of [sigur](https://github.com/aifrim/sigur).
 
-Imports shadow the globals on purpose:
-
-```ts
-import { JSON, fetch, URL, Request, Response } from "@sigur/node";
-
-JSON.parse("{"); // Result — does not throw
-await fetch("https://example.com"); // ResultAsync<Response, Error> (sigur Response)
-URL.from("https://example.com"); // Result<URL> — wraps globalThis.URL
-```
+Imports shadow the globals on purpose so call sites stay familiar while failures become `Result` / `ResultAsync`.
 
 ## Install
 
@@ -18,12 +10,42 @@ URL.from("https://example.com"); // Result<URL> — wraps globalThis.URL
 pnpm add @sigur/core @sigur/node
 ```
 
+**Requirements:** Node `>=24`.
+
+## Quick start
+
+```ts
+import { JSON, fetch, URL } from "@sigur/node";
+
+const parsed = JSON.parse('{"a":1}');
+
+if (parsed.isOkay()) {
+  console.log(parsed.value); // unknown — validate yourself
+} else {
+  console.error(parsed.error); // SyntaxError, etc.
+}
+
+const url = URL.from("https://example.com");
+
+if (url.isOkay()) {
+  const response = await fetch(url.value);
+
+  if (response.isOkay()) {
+    console.log(response.value.status); // HTTP 4xx/5xx still Ok
+  } else {
+    console.error(response.error); // network / abort
+  }
+}
+```
+
+Always call through `globalThis` under the hood, so stubs of the real globals work in tests.
+
 ## Why wrap these?
 
 Each export matches a global that fails **outside** the normal return type (throw or Promise rejection). `@sigur/node` turns that into `Result` / `ResultAsync` so you extract the value, extract the error, or return upstream — no try/catch.
 
 | Export | Native failure mode |
-|--------|---------------------|
+| ------ | ------------------- |
 | `JSON.parse` / `JSON.stringify` | throw (`SyntaxError`, circular / `BigInt`, …) |
 | `decodeURI` / `decodeURIComponent` / `encodeURI` / `encodeURIComponent` | throw `URIError` (bad escapes / lone surrogates) |
 | `structuredClone` | throw on non-cloneable values |
@@ -36,12 +58,17 @@ Each export matches a global that fails **outside** the normal return type (thro
 | `Headers.from` | `new globalThis.Headers` throws → `Result` |
 | `URLSearchParams.from` | `new globalThis.URLSearchParams` throws → `Result` |
 
-`URL` uses a private constructor: `new` cannot return a `Result`, so use `URL.from` / `URL.parse`. Instance getters/setters match [MDN `URL`](https://developer.mozilla.org/en-US/docs/Web/API/URL) (`origin` / `searchParams` read-only). Setters throw like native. `canParse` / `revokeObjectURL` are thin forwards (no `Result`).
+## Notes
+
+- `URL` uses a private constructor: `new` cannot return a `Result`, so use `URL.from` / `URL.parse`. Instance getters/setters match [MDN `URL`](https://developer.mozilla.org/en-US/docs/Web/API/URL) (`origin` / `searchParams` read-only). Setters throw like native. `canParse` / `revokeObjectURL` are thin forwards (no `Result`).
+- `URL`, `URLSearchParams`, `Request`, `Response`, and `Headers` are **not** subclasses of the native types. There is no public `.native` escape hatch; interop with `globalThis.fetch` and friends is handled inside the package.
+- Mutators on `Headers` / `URLSearchParams` throw like native when the underlying object rejects the operation.
+- Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows — see [`@sigur/core`](https://github.com/aifrim/sigur/tree/main/packages/core).
 
 ## API
 
 | Export | Notes |
-|--------|--------|
+| ------ | ----- |
 | `JSON.parse` / `JSON.stringify` | sync `Result` |
 | `decodeURI` / `decodeURIComponent` / `encodeURI` / `encodeURIComponent` | sync `Result` |
 | `structuredClone` | sync `Result` |
@@ -56,10 +83,7 @@ Each export matches a global that fails **outside** the normal return type (thro
 | `Headers.from` | `Result<Headers, Error>`; mutators throw like native |
 | `fetch` | `ResultAsync<Response, Error>` (sigur `Response`; HTTP 4xx/5xx remain ok Results) |
 
-Always call through `globalThis` under the hood, so stubs of the real globals work in tests.
+## See also
 
-## Wrapper internals (not public API)
-
-`URL`, `URLSearchParams`, `Request`, `Response`, and `Headers` keep a native instance in a private `#inner` field for delegation.
-
-Private fields are not visible outside the class, so sibling builtins need another way to reach the native object. A shared module-private `WeakMap` plus `unwrap` (registered in each constructor via `registerInner`) provides that. Helpers are for in-package use and tests that import `src/builtins/*`; they are **not** re-exported from `@sigur/node`. There is no public `.native` escape hatch.
+- Monorepo & longer examples: [github.com/aifrim/sigur](https://github.com/aifrim/sigur)
+- Core `Result` / `sure`: [`@sigur/core`](https://www.npmjs.com/package/@sigur/core)

@@ -5,6 +5,8 @@
     "outDir": "dist",
     "composite": true,
     "noEmit": false,
+    "sourceMap": false,
+    "declarationMap": false,
     "lib": ["ES2022", "DOM"],
     "types": ["node"]
   },

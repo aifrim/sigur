@@ -235,17 +235,17 @@ importers:
   packages/node:
     dependencies:
       '@sigur/core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../core
     devDependencies:
       '@types/node':
-        specifier: ^24.5.2
+        specifier: 24.*
         version: 24.13.6
       typescript:
-        specifier: ^7.0.2
+        specifier: 7.*
         version: 7.0.2
       vitest:
-        specifier: ^3.2.4
+        specifier: 3.*
         version: 3.2.7(@types/node@24.13.6)
 
 packages:

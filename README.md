@@ -19,6 +19,8 @@ I hate being hit with **undocumented exceptions** — some `Error` thrown from d
 
 Further `node:` stdlib wrappers will land in `@sigur/node` later.
 
+**Requires Node.js 24 or newer.**
+
 ## Model
 
 In JS/TS, failure often leaves the type system — functions throw, Promises reject, and callers forget to catch or wrap everything in broad `try` / `catch`. Control flow jumps; TypeScript cannot force you to handle failure.

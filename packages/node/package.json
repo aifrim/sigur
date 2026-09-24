@@ -1,6 +1,6 @@
 {
   "name": "@sigur/node",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Result-returning Node/JS globals for Sigur (JSON, fetch, URL, …)",
   "keywords": [
     "result",
@@ -9,8 +9,16 @@
     "sigur",
     "node"
   ],
-	"author": "Alexandru Ifrim <me@aifrim.com>",
-	"repository": "https://github.com/aifrim/sigur",
+  "author": "Alexandru Ifrim <me@aifrim.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aifrim/sigur.git",
+    "directory": "packages/node"
+  },
+  "homepage": "https://github.com/aifrim/sigur/tree/main/packages/node",
+  "bugs": {
+    "url": "https://github.com/aifrim/sigur/issues"
+  },
   "type": "module",
   "license": "MIT",
   "exports": {
@@ -20,7 +28,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE.md"
   ],
   "sideEffects": false,
   "scripts": {
@@ -28,10 +37,14 @@
     "check": "tsc -p tsconfig.json --noEmit",
     "typecheck": "tsc -p tsconfig.build.json --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "pnpm run build"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
-    "@sigur/core": "workspace:*"
+    "@sigur/core": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "24.*",
@@ -40,5 +53,5 @@
   },
   "engines": {
     "node": ">=24"
-  },
+  }
 }

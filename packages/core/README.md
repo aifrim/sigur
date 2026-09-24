@@ -1,14 +1,18 @@
 # @sigur/core
 
-Errors as values for JavaScript and TypeScript. A `Result` is for extracting the value, extracting the error, or returning upstream — no `throw` / `try` / `catch` required.
+Errors as values for JavaScript and TypeScript. Part of [sigur](https://github.com/aifrim/sigur) 
 
-Works anywhere JS runs (Node, Bun, Deno, browsers, React Native). Platform helpers live in [`@sigur/node`](https://www.npmjs.com/package/@sigur/node) (`JSON`, `fetch`, `URL`, …).
+A `Result` is for extracting the value, extracting the error, or returning upstream — no `throw` / `try` / `catch` required at the call site.
+
+Works anywhere JS runs (Node, Bun, Deno, browsers, React Native). Result-returning globals (`JSON`, `fetch`, `URL`, …) live in `[@sigur/node](https://github.com/aifrim/sigur/tree/main/packages/node)`.
 
 ## Install
 
 ```bash
 pnpm add @sigur/core
 ```
+
+**Requirements:** Node `>=24` (or any modern JS runtime that can import ESM).
 
 ## Quick start
 
@@ -22,13 +26,76 @@ const safeGetItem = sure(getItem);
 const result = await safeGetItem("1"); // Result — throws / rejects become Err
 
 if (result.isOkay()) {
-  console.log(result.value); // extract value — still trusts the SDK's type
+  console.log(result.value); // still trusts the SDK's type
 } else {
-  console.error(result.error); // extract error
+  console.error(result.error);
 }
 ```
 
 `sure` is the bridge when you only have `.d.ts` + JS and cannot see how the package fails. Success typing is still the SDK's claim — validate the shape yourself if you need a domain type.
+
+### Construct your own `Result`
+
+```ts
+import { Err, Ok, type Result } from "@sigur/core";
+
+function parseId(raw: string): Result<number, Error> {
+  const n = Number(raw);
+
+  if (Number.isFinite(n)) {
+    return Ok(n);
+  }
+
+  return Err(new Error(`invalid id: ${raw}`));
+}
+
+const id = parseId("42");
+
+if (id.isOkay()) {
+  console.log(id.value);
+} else {
+  console.error(id.error);
+}
+```
+
+
+
+### Async
+
+Sync functions return `Result`. Async / Promise-returning functions wrapped with `sure` return `ResultAsync` — `await` to get a `Result`. You can also wrap an existing Promise:
+
+```ts
+import { ResultAsync } from "@sigur/core";
+
+const result = await ResultAsync.fromPromise(fetch("https://example.com"));
+```
+
+
+
+## Call sites
+
+At every call site, do **one** of:
+
+1. **Extract the value** — `isOkay()` then `.value`
+2. **Extract the error** — `isNotOkay()` then `.error`
+3. **Return upstream** — `return result`
+
+Prefer positive checks so TypeScript narrows to `OkResult` / `ErrResult`. Also available: `result.ok`, `instanceof OkResult` / `ErrResult` / `Result`.
+
+## `sure` and `finally`
+
+```ts
+import { sure } from "@sigur/core";
+
+const doWork = sure(
+  () => risky(),
+  {
+    finally: () => cleanup(),
+  },
+);
+```
+
+`finally` runs after a **failed** attempt. If both the operation and cleanup throw, Sigur returns an `AggregateError` so cleanup cannot swallow the original failure.
 
 ## API
 
@@ -42,28 +109,10 @@ if (result.isOkay()) {
 | `ResultAsync` / `ResultAsync.fromPromise` | Async wrapper; `await` → `Result`                                  |
 
 
-### Result
+Thrown / rejected causes map with `toError` → `Result<T, Error>`. Reshape errors by extracting and `return Err(newError)`.
 
-At every call site, do one of:
+## See also
 
-1. `isOkay()` then `.value`
-2. `isNotOkay()` then `.error`
-3. `return result` upstream
-
-Prefer positive checks so TypeScript narrows. Also available: `result.ok`, `instanceof OkResult` / `ErrResult` / `Result`.
-
-Sync functions → `Result`. Async / Promise-returning → `ResultAsync`. Thrown / rejected causes map with `toError` → `Result<T, Error>`. Reshape with `return Err(newError)`.
-
-### `sure` and `finally`
-
-```ts
-const doWork = sure(
-  () => risky(),
-  {
-    finally: () => cleanup(),
-  },
-);
-```
-
-`finally` runs after a **failed** attempt. If both the operation and cleanup throw, Sigur returns an `AggregateError` so cleanup cannot swallow the original failure.
+- Monorepo & longer examples: [github.com/aifrim/sigur](https://github.com/aifrim/sigur)
+- Platform globals: `[@sigur/node](https://github.com/aifrim/sigur/tree/main/packages/node)`
 
