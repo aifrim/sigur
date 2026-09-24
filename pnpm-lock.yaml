@@ -234,7 +234,7 @@ importers:
 
   packages/node:
     dependencies:
-      '@sigur/core':
+      '@sigurjs/core':
         specifier: workspace:^
         version: link:../core
     devDependencies:

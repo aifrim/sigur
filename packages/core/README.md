@@ -1,15 +1,15 @@
-# @sigur/core
+# @sigurjs/core
 
 Errors as values for JavaScript and TypeScript. Part of [sigur](https://github.com/aifrim/sigur) 
 
 A `Result` is for extracting the value, extracting the error, or returning upstream — no `throw` / `try` / `catch` required at the call site.
 
-Works anywhere JS runs (Node, Bun, Deno, browsers, React Native). Result-returning globals (`JSON`, `fetch`, `URL`, …) live in `[@sigur/node](https://github.com/aifrim/sigur/tree/main/packages/node)`.
+Works anywhere JS runs (Node, Bun, Deno, browsers, React Native). Result-returning globals (`JSON`, `fetch`, `URL`, …) live in `[@sigurjs/node](https://github.com/aifrim/sigur/tree/main/packages/node)`.
 
 ## Install
 
 ```bash
-pnpm add @sigur/core
+pnpm add @sigurjs/core
 ```
 
 **Requirements:** Node `>=24` (or any modern JS runtime that can import ESM).
@@ -19,7 +19,7 @@ pnpm add @sigur/core
 Wrap a third-party SDK (or any throwing / rejecting API) with `sure`:
 
 ```ts
-import { sure } from "@sigur/core";
+import { sure } from "@sigurjs/core";
 import { getItem } from "some-api-sdk";
 
 const safeGetItem = sure(getItem);
@@ -37,7 +37,7 @@ if (result.isOkay()) {
 ### Construct your own `Result`
 
 ```ts
-import { Err, Ok, type Result } from "@sigur/core";
+import { Err, Ok, type Result } from "@sigurjs/core";
 
 function parseId(raw: string): Result<number, Error> {
   const n = Number(raw);
@@ -65,7 +65,7 @@ if (id.isOkay()) {
 Sync functions return `Result`. Async / Promise-returning functions wrapped with `sure` return `ResultAsync` — `await` to get a `Result`. You can also wrap an existing Promise:
 
 ```ts
-import { ResultAsync } from "@sigur/core";
+import { ResultAsync } from "@sigurjs/core";
 
 const result = await ResultAsync.fromPromise(fetch("https://example.com"));
 ```
@@ -85,7 +85,7 @@ Prefer positive checks so TypeScript narrows to `OkResult` / `ErrResult`. Also a
 ## `sure` and `finally`
 
 ```ts
-import { sure } from "@sigur/core";
+import { sure } from "@sigurjs/core";
 
 const doWork = sure(
   () => risky(),

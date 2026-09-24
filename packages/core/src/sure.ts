@@ -106,7 +106,7 @@ type SureReturn<T> = [T] extends [never]
  *
  * @example
  * ```ts
- * import { sure } from "@sigur/core";
+ * import { sure } from "@sigurjs/core";
  *
  * const sureFn = sure(fn);
  * const result = sureFn();
@@ -120,7 +120,7 @@ type SureReturn<T> = [T] extends [never]
  *
  * @example
  * ```ts
- * import { sure } from "@sigur/core";
+ * import { sure } from "@sigurjs/core";
  *
  * const sureFn = sure(fn, {
  *   finally: () => cleanup(),

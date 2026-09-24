@@ -11,13 +11,13 @@ I hate being hit with **undocumented exceptions** — some `Error` thrown from d
 ## Packages
 
 
-| Package                        | Description                                          |
-| ------------------------------ | ---------------------------------------------------- |
-| `[@sigur/core](packages/core)` | `Result`, `ResultAsync`, `sure()`                    |
-| `[@sigur/node](packages/node)` | Result-returning globals (`JSON`, `fetch`, `URL`, …) |
+| Package                          | Description                                          |
+| -------------------------------- | ---------------------------------------------------- |
+| `[@sigurjs/core](packages/core)` | `Result`, `ResultAsync`, `sure()`                    |
+| `[@sigurjs/node](packages/node)` | Result-returning globals (`JSON`, `fetch`, `URL`, …) |
 
 
-Further `node:` stdlib wrappers will land in `@sigur/node` later.
+Further `node:` stdlib wrappers will land in `@sigurjs/node` later.
 
 **Requires Node.js 24 or newer.**
 
@@ -50,20 +50,20 @@ unsure function  ──sure()──►  Result-returning function
 | Easy to forget      | Yes              | Narrowing forces a branch                          |
 
 
-`sure` is the bridge for third-party code that still throws. `@sigur/core` is runtime-agnostic; `@sigur/node` ships Result-returning globals.
+`sure` is the bridge for third-party code that still throws. `@sigurjs/core` is runtime-agnostic; `@sigurjs/node` ships Result-returning globals.
 
 ## Usage
 
 ```bash
-pnpm add @sigur/core
-pnpm add @sigur/node   # optional Result-returning globals
+pnpm add @sigurjs/core
+pnpm add @sigurjs/node   # optional Result-returning globals
 ```
 
-Wrap an unsure function with `sure` (or use `@sigur/node` globals that already return `Result`):
+Wrap an unsure function with `sure` (or use `@sigurjs/node` globals that already return `Result`):
 
 ```ts
-import { sure } from "@sigur/core";
-import { JSON } from "@sigur/node";
+import { sure } from "@sigurjs/core";
+import { JSON } from "@sigurjs/node";
 
 const parse = sure(globalThis.JSON.parse);
 parse('{"a":1}');      // Result — never throws
@@ -78,7 +78,7 @@ JSON.parse('{"a":1}'); // same idea, packaged
 
 Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows. Also available: `result.ok`, `instanceof OkResult` / `ErrResult` / `Result`.
 
-Package API tables: `[@sigur/core](packages/core)` · `[@sigur/node](packages/node)`
+Package API tables: `[@sigurjs/core](packages/core)` · `[@sigurjs/node](packages/node)`
 
 ## Example
 
@@ -101,8 +101,8 @@ It looks small, but a lot is hidden: network failures reject, non-OK HTTP still 
 With Sigur — the same steps return `Result`. It is more verbose on purpose: each fallible step is visible, and `parseData` forces you to treat JSON as `unknown` until it matches the type.
 
 ```ts
-import { Err, Ok, type Result } from "@sigur/core";
-import { fetch } from "@sigur/node";
+import { Err, Ok, type Result } from "@sigurjs/core";
+import { fetch } from "@sigurjs/node";
 
 type Data = { id: number; name: string };
 
@@ -150,7 +150,7 @@ And imagine using it with a dependency you cannot inspect at development time du
 
 ```ts
 // From a published SDK — types say Promise<Data>, but you only get .d.ts + JS.
-import { sure } from "@sigur/core";
+import { sure } from "@sigurjs/core";
 import { getItem } from "some-api-sdk";
 
 const data = await getItem("1"); // typechecks

@@ -1,13 +1,13 @@
-# @sigur/node
+# @sigurjs/node
 
-Result-returning mirrors of Node/JS **globals** (no `node:` imports yet). Built on [`@sigur/core`](https://github.com/aifrim/sigur/tree/main/packages/core). Part of [sigur](https://github.com/aifrim/sigur).
+Result-returning mirrors of Node/JS **globals** (no `node:` imports yet). Built on [`@sigurjs/core`](https://github.com/aifrim/sigur/tree/main/packages/core). Part of [sigur](https://github.com/aifrim/sigur).
 
 Imports shadow the globals on purpose so call sites stay familiar while failures become `Result` / `ResultAsync`.
 
 ## Install
 
 ```bash
-pnpm add @sigur/core @sigur/node
+pnpm add @sigurjs/core @sigurjs/node
 ```
 
 **Requirements:** Node `>=24`.
@@ -15,7 +15,7 @@ pnpm add @sigur/core @sigur/node
 ## Quick start
 
 ```ts
-import { JSON, fetch, URL } from "@sigur/node";
+import { JSON, fetch, URL } from "@sigurjs/node";
 
 const parsed = JSON.parse('{"a":1}');
 
@@ -42,7 +42,7 @@ Always call through `globalThis` under the hood, so stubs of the real globals wo
 
 ## Why wrap these?
 
-Each export matches a global that fails **outside** the normal return type (throw or Promise rejection). `@sigur/node` turns that into `Result` / `ResultAsync` so you extract the value, extract the error, or return upstream — no try/catch.
+Each export matches a global that fails **outside** the normal return type (throw or Promise rejection). `@sigurjs/node` turns that into `Result` / `ResultAsync` so you extract the value, extract the error, or return upstream — no try/catch.
 
 | Export | Native failure mode |
 | ------ | ------------------- |
@@ -63,7 +63,7 @@ Each export matches a global that fails **outside** the normal return type (thro
 - `URL` uses a private constructor: `new` cannot return a `Result`, so use `URL.from` / `URL.parse`. Instance getters/setters match [MDN `URL`](https://developer.mozilla.org/en-US/docs/Web/API/URL) (`origin` / `searchParams` read-only). Setters throw like native. `canParse` / `revokeObjectURL` are thin forwards (no `Result`).
 - `URL`, `URLSearchParams`, `Request`, `Response`, and `Headers` are **not** subclasses of the native types. There is no public `.native` escape hatch; interop with `globalThis.fetch` and friends is handled inside the package.
 - Mutators on `Headers` / `URLSearchParams` throw like native when the underlying object rejects the operation.
-- Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows — see [`@sigur/core`](https://github.com/aifrim/sigur/tree/main/packages/core).
+- Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows — see [`@sigurjs/core`](https://github.com/aifrim/sigur/tree/main/packages/core).
 
 ## API
 

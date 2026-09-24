@@ -1,5 +1,5 @@
 {
-  "name": "@sigur/node",
+  "name": "@sigurjs/node",
   "version": "0.1.0",
   "description": "Result-returning Node/JS globals for Sigur (JSON, fetch, URL, …)",
   "keywords": [
@@ -44,7 +44,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@sigur/core": "workspace:^"
+    "@sigurjs/core": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "24.*",

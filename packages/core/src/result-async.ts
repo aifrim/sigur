@@ -8,7 +8,7 @@ import { Err, Ok, type Result } from "./result.ts";
  *
  * @example
  * ```ts
- * import { sure } from "@sigur/core";
+ * import { sure } from "@sigurjs/core";
  *
  * const sureFn = sure(fn);
  * const result = await sureFn();

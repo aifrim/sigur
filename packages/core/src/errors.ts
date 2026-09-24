@@ -4,7 +4,7 @@
  *
  * @example
  * ```ts
- * import { toError } from "@sigur/core";
+ * import { toError } from "@sigurjs/core";
  *
  * toError(new TypeError("x")); // same TypeError
  * toError("boom"); // Error("boom")

@@ -1,5 +1,5 @@
 /**
- * @sigur/node — Result-returning Node helpers.
+ * @sigurjs/node — Result-returning Node helpers.
  *
  * Globals live under {@link ./builtins/index.ts | builtins} (no `node:` imports yet).
  *

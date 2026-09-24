@@ -5,7 +5,7 @@
  * `#` fields are invisible outside the declaring class, so sibling builtins
  * (`fetch`, `from`, `toNative*`) cannot read them. This module holds one
  * WeakMap keyed by the wrapper instance; constructors call {@link registerInner},
- * and siblings call {@link unwrap}. Not re-exported from `@sigur/node` — there
+ * and siblings call {@link unwrap}. Not re-exported from `@sigurjs/node` — there
  * is no public `.native` escape hatch.
  */
 

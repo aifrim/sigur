@@ -1,4 +1,4 @@
-import { Err, Ok, type Result, ResultAsync, sure } from "@sigur/core";
+import { Err, Ok, type Result, ResultAsync, sure } from "@sigurjs/core";
 import { type Headers, wrapHeaders } from "./headers.ts";
 import { registerInner } from "./inner.ts";
 
@@ -27,7 +27,7 @@ const createNative = sure(
  * {@link Response.from} / statics; body readers return {@link ResultAsync}.
  *
  * Instance getters match the native API. Call through `globalThis.Response` for
- * stubbability. Imports from `@sigur/node` shadow the global on purpose.
+ * stubbability. Imports from `@sigurjs/node` shadow the global on purpose.
  */
 export class Response {
   readonly #inner: NativeResponse;

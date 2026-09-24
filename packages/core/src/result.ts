@@ -19,7 +19,7 @@
  *
  * @example
  * ```ts
- * import { sure } from "@sigur/core";
+ * import { sure } from "@sigurjs/core";
  *
  * const sureFn = sure(fn);
  * const result = sureFn();
@@ -33,7 +33,7 @@
  *
  * @example
  * ```ts
- * import { Ok, type Result } from "@sigur/core";
+ * import { Ok, type Result } from "@sigurjs/core";
  *
  * function use(result: Result<string, Error>): Result<string, Error> {
  *   if (result.isOkay()) {
@@ -101,7 +101,7 @@ export class ErrResult<T = never, E = Error> extends Result<T, E> {
  *
  * @example
  * ```ts
- * import { Ok } from "@sigur/core";
+ * import { Ok } from "@sigurjs/core";
  *
  * const result = Ok(42);
  *
@@ -122,7 +122,7 @@ export function Ok<T, E = never>(value: T): Result<T, E> {
  *
  * @example
  * ```ts
- * import { Err } from "@sigur/core";
+ * import { Err } from "@sigurjs/core";
  *
  * Err(new Error("nope"));
  * Err("nope");

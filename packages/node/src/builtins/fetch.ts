@@ -1,4 +1,4 @@
-import { sure } from "@sigur/core";
+import { sure } from "@sigurjs/core";
 import { unwrap } from "./inner.ts";
 import { Request } from "./request.ts";
 import { Response, wrapResponse } from "./response.ts";

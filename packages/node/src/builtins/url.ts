@@ -1,4 +1,4 @@
-import { Err, Ok, type Result, sure } from "@sigur/core";
+import { Err, Ok, type Result, sure } from "@sigurjs/core";
 import { registerInner, unwrap } from "./inner.ts";
 import { type URLSearchParams, wrapURLSearchParams } from "./url-search-params.ts";
 

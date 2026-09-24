@@ -1,4 +1,4 @@
-import { sure } from "@sigur/core";
+import { sure } from "@sigurjs/core";
 
 /**
  * URI encode/decode globals.

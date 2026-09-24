@@ -1,4 +1,4 @@
-import { Err, Ok, type Result, ResultAsync, sure } from "@sigur/core";
+import { Err, Ok, type Result, ResultAsync, sure } from "@sigurjs/core";
 import { type Headers, wrapHeaders } from "./headers.ts";
 import { registerInner, unwrap } from "./inner.ts";
 import { URL } from "./url.ts";

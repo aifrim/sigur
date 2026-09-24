@@ -1,4 +1,4 @@
-import { sure } from "@sigur/core";
+import { sure } from "@sigurjs/core";
 
 /**
  * Result-returning {@link globalThis.structuredClone}.

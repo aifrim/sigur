@@ -1,5 +1,5 @@
 /**
- * @sigur/core — errors as values.
+ * @sigurjs/core — errors as values.
  *
  * - {@link Result} — extract the value, extract the error, or return upstream
  * - {@link sure} — unsure (throwing) function → Result-returning function
