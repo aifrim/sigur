@@ -8,8 +8,6 @@ describe("Result", () => {
 
     expect(success).toBeInstanceOf(Result);
     expect(failure).toBeInstanceOf(Result);
-    expect(success.ok).toBe(true);
-    expect(failure.ok).toBe(false);
 
     if (success.isOkay()) {
       expect(success).toBeInstanceOf(OkResult);
@@ -87,6 +85,29 @@ describe("Result", () => {
 
     if (result.isNotOkay()) {
       expect(result.error.message).toBe("missing");
+    } else {
+      expect.unreachable();
+    }
+  });
+
+  it("Ok() is a void unit success", () => {
+    const result: Result<void, never> = Ok();
+    const asErrorE: Result<void, Error> = Ok();
+
+    expect(asErrorE.isOkay()).toBe(true);
+
+    if (result.isOkay()) {
+      expect(result.value).toBeUndefined();
+    } else {
+      expect.unreachable();
+    }
+  });
+
+  it("Ok(undefined) keeps an explicit undefined payload", () => {
+    const result: Result<undefined, never> = Ok(undefined);
+
+    if (result.isOkay()) {
+      expect(result.value).toBeUndefined();
     } else {
       expect.unreachable();
     }

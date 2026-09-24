@@ -1,4 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
+import type { Result } from "../src/result.ts";
+import type { ResultAsync } from "../src/result-async.ts";
 import { sure } from "../src/sure.ts";
 
 describe("sure", () => {
@@ -240,6 +242,29 @@ describe("sure", () => {
 
       if (result.isOkay()) {
         expect(result.value).toBe(1);
+      } else {
+        expect.unreachable();
+      }
+    });
+
+    it("wraps sync void success as unit Ok()", () => {
+      const sureFn = sure(() => {});
+      const result: Result<void, Error> = sureFn();
+
+      if (result.isOkay()) {
+        expect(result.value).toBeUndefined();
+      } else {
+        expect.unreachable();
+      }
+    });
+
+    it("wraps async void success as unit Ok()", async () => {
+      const sureFn = sure(async () => {});
+      const pending: ResultAsync<void, Error> = sureFn();
+      const result = await pending;
+
+      if (result.isOkay()) {
+        expect(result.value).toBeUndefined();
       } else {
         expect.unreachable();
       }

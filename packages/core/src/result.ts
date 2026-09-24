@@ -45,8 +45,6 @@
  * ```
  */
 export abstract class Result<T, E = Error> {
-  abstract readonly ok: boolean;
-
   abstract isOkay(): this is OkResult<T, E>;
 
   abstract isNotOkay(): this is ErrResult<T, E>;
@@ -57,7 +55,6 @@ export abstract class Result<T, E = Error> {
  * or return the `Result` upstream. Construct with {@link Ok}.
  */
 export class OkResult<T, E = never> extends Result<T, E> {
-  readonly ok: true = true as const;
   readonly value: T;
 
   constructor(value: T) {
@@ -79,7 +76,6 @@ export class OkResult<T, E = never> extends Result<T, E> {
  * or return the `Result` upstream. Construct with {@link Err}.
  */
 export class ErrResult<T = never, E = Error> extends Result<T, E> {
-  readonly ok: false = false as const;
   readonly error: E;
 
   constructor(error: E) {
@@ -99,6 +95,9 @@ export class ErrResult<T = never, E = Error> extends Result<T, E> {
 /**
  * Create an okay {@link Result}.
  *
+ * Call with no arguments for a void / unit success (`Result<void, never>`);
+ * runtime {@link OkResult.value} is `undefined`.
+ *
  * @example
  * ```ts
  * import { Ok } from "@sigurjs/core";
@@ -109,8 +108,19 @@ export class ErrResult<T = never, E = Error> extends Result<T, E> {
  *   console.log(result.value);
  * }
  * ```
+ *
+ * @example
+ * ```ts
+ * import { Ok, type Result } from "@sigurjs/core";
+ *
+ * function ack(): Result<void, Error> {
+ *   return Ok();
+ * }
+ * ```
  */
-export function Ok<T, E = never>(value: T): Result<T, E> {
+export function Ok(): Result<void, never>;
+export function Ok<T, E = never>(value: T): Result<T, E>;
+export function Ok(value?: unknown): Result<unknown, never> {
   return new OkResult(value);
 }
 

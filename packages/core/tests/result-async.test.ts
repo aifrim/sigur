@@ -22,6 +22,16 @@ describe("ResultAsync", () => {
     }
   });
 
+  it("fromPromise maps void fulfillment to unit Ok()", async () => {
+    const result: Result<void, Error> = await ResultAsync.fromPromise(Promise.resolve());
+
+    if (result.isOkay()) {
+      expect(result.value).toBeUndefined();
+    } else {
+      expect.unreachable();
+    }
+  });
+
   it("can be returned upstream after await", async () => {
     const read = (): ResultAsync<string, Error> =>
       ResultAsync.fromPromise(Promise.reject(new Error("missing")));

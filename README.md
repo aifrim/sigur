@@ -72,11 +72,11 @@ JSON.parse('{"a":1}'); // same idea, packaged
 
 - Sync → `Result`; async / Promise-returning → `ResultAsync` (`await` → `Result`)
 - Thrown / rejected causes map with `toError` → `Result<T, Error>`
-- Build your own with `Ok(value)` / `Err("message")` / `Err("message", { cause })`
+- Build your own with `Ok()` / `Ok(value)` / `Err("message")` / `Err("message", { cause })`
 - `sure(fn, { finally })` runs cleanup after a **failed** attempt; if cleanup also throws → `AggregateError`
 - Reshape errors by extracting and `return Err("…", { cause })`
 
-Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows. Also available: `result.ok`, `instanceof OkResult` / `ErrResult` / `Result`.
+Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows. Also available: `instanceof OkResult` / `ErrResult` / `Result`.
 
 Package API tables: `[@sigurjs/core](packages/core)` · `[@sigurjs/node](packages/node)`
 

@@ -58,6 +58,20 @@ if (id.isOkay()) {
 }
 ```
 
+### Void / unit success
+
+When success has no payload (e.g. ack / “done”), use `Result<void, Error>` and `Ok()` — no `Ok(undefined)` or cast needed. Runtime `value` is still `undefined`.
+
+```ts
+function publish(): Result<void, Error> {
+  // …
+  return Ok();
+}
+```
+
+`sure` on a void-returning (or `Promise<void>`) function yields `Result<void, Error>` / `ResultAsync<void, Error>` the same way — success `value` is `undefined`.
+
+Use `Ok(value)` when there is a real success payload.
 
 
 ### Async
@@ -80,7 +94,7 @@ At every call site, do **one** of:
 2. **Extract the error** — `isNotOkay()` then `.error`
 3. **Return upstream** — `return result`
 
-Prefer positive checks so TypeScript narrows to `OkResult` / `ErrResult`. Also available: `result.ok`, `instanceof OkResult` / `ErrResult` / `Result`.
+Prefer positive checks so TypeScript narrows to `OkResult` / `ErrResult`. Also available: `instanceof OkResult` / `ErrResult` / `Result`.
 
 ## `sure` and `finally`
 
@@ -103,7 +117,7 @@ const doWork = sure(
 | Export                                    | Purpose                                                               |
 | ----------------------------------------- | --------------------------------------------------------------------- |
 | `Result` / `OkResult` / `ErrResult`       | Sync success or failure as data                                       |
-| `Ok(value)` / `Err(...)`                  | Construct a `Result`; `Err("msg", { cause })` / `Err(err, { cause })` |
+| `Ok()` / `Ok(value)` / `Err(...)`         | Construct a `Result`; `Ok()` is void success; `Err("msg", { cause })` |
 | `sure(fn, options?)`                      | Unsure (throwing / rejecting) function → Result-returning function    |
 | `toError(cause)`                          | Normalize any thrown / rejected value to `Error`                      |
 | `ResultAsync` / `ResultAsync.fromPromise` | Async wrapper; `await` → `Result`                                     |
