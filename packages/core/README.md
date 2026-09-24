@@ -46,7 +46,7 @@ function parseId(raw: string): Result<number, Error> {
     return Ok(n);
   }
 
-  return Err(new Error(`invalid id: ${raw}`));
+  return Err(`invalid id: ${raw}`);
 }
 
 const id = parseId("42");
@@ -109,7 +109,7 @@ const doWork = sure(
 | `ResultAsync` / `ResultAsync.fromPromise` | Async wrapper; `await` → `Result`                                     |
 
 
-Thrown / rejected causes map with `toError` → `Result<T, Error>`. Reshape errors by extracting and `return Err(newError)`.
+Thrown / rejected causes map with `toError` → `Result<T, Error>`. Reshape errors by extracting and `return Err("…", { cause })` (or `Err(error)`).
 
 ## See also
 

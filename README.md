@@ -72,9 +72,9 @@ JSON.parse('{"a":1}'); // same idea, packaged
 
 - Sync → `Result`; async / Promise-returning → `ResultAsync` (`await` → `Result`)
 - Thrown / rejected causes map with `toError` → `Result<T, Error>`
-- Build your own with `Ok(value)` / `Err(error)`
+- Build your own with `Ok(value)` / `Err("message")` / `Err("message", { cause })`
 - `sure(fn, { finally })` runs cleanup after a **failed** attempt; if cleanup also throws → `AggregateError`
-- Reshape errors by extracting and `return Err(newError)`
+- Reshape errors by extracting and `return Err("…", { cause })`
 
 Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows. Also available: `result.ok`, `instanceof OkResult` / `ErrResult` / `Result`.
 
@@ -118,20 +118,20 @@ function parseData(value: unknown): Result<Data, Error> {
     return Ok({ id: value.id, name: value.name });
   }
 
-  return Err(new Error("invalid Data"));
+  return Err("invalid Data");
 }
 
 async function getData(url: string): Promise<Result<Data, Error>> {
   const response = await fetch(url);
 
   if (response.isNotOkay()) {
-    return Err(new Error(`failed to fetch ${url}`, { cause: response.error }));
+    return Err(`failed to fetch ${url}`, { cause: response.error });
   }
 
   const json = await response.value.json();
 
   if (json.isNotOkay()) {
-    return Err(new Error("failed to parse response JSON", { cause: json.error }));
+    return Err("failed to parse response JSON", { cause: json.error });
   }
 
   return parseData(json.value);
