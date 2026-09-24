@@ -117,17 +117,36 @@ export function Ok<T, E = never>(value: T): Result<T, E> {
 /**
  * Create a not-okay {@link Result}.
  *
+ * Accepts an {@link Error}, any other error value, or a message string (with optional
+ * `Error` constructor options — same shape as `new Error(message, options)`).
+ *
  * @example
  * ```ts
  * import { Err } from "@sigur/core";
  *
- * const result = Err(new Error("nope"));
- *
- * if (result.isNotOkay()) {
- *   console.error(result.error);
- * }
+ * Err(new Error("nope"));
+ * Err("nope");
+ * Err("nope", { cause: previous });
+ * Err(new TypeError("bad"), { cause: previous });
  * ```
  */
-export function Err<T = never, E = Error>(error: E): Result<T, E> {
+export function Err(message: string, options?: ErrorOptions): Result<never, Error>;
+export function Err<E extends Error>(error: E, options?: ErrorOptions): Result<never, Error>;
+export function Err<T = never, E = Error>(error: E): Result<T, E>;
+export function Err(error: unknown, options?: ErrorOptions): Result<never, unknown> {
+  if (typeof error === "string") {
+    return new ErrResult(new Error(error, options));
+  }
+
+  if (error instanceof Error && options !== undefined) {
+    const Ctor = error.constructor as new (message?: string, options?: ErrorOptions) => Error;
+
+    try {
+      return new ErrResult(new Ctor(error.message, options));
+    } catch {
+      return new ErrResult(new Error(error.message, { ...options, cause: options.cause ?? error }));
+    }
+  }
+
   return new ErrResult(error);
 }

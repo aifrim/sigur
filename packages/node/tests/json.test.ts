@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { JSON } from "../src/index.ts";
+import { JSON } from "../src/builtins/json.ts";
 
 describe("JSON", () => {
   it("parse returns ok for valid JSON", () => {

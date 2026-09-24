@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Ok, type Result, ResultAsync } from "../src/index.ts";
+import { Ok, type Result } from "../src/result.ts";
+import { ResultAsync } from "../src/result-async.ts";
 
 describe("ResultAsync", () => {
   it("awaits to a Result for extracting value or error", async () => {

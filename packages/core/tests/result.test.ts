@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { Err, Ok, OkResult, Result } from "../src/index.ts";
+import { Err, Ok, OkResult, Result } from "../src/result.ts";
 
 describe("Result", () => {
   it("constructs okay and not-okay results", () => {
     const success = Ok(42);
-    const failure = Err(new Error("boom"));
+    const failure = Err("boom");
 
     expect(success).toBeInstanceOf(Result);
     expect(failure).toBeInstanceOf(Result);
@@ -36,17 +36,44 @@ describe("Result", () => {
   });
 
   it("extracts the error after isNotOkay", () => {
-    const result: Result<number, string> = Err("nope");
+    const result: Result<number, Error> = Err("nope");
 
     if (result.isNotOkay()) {
-      expect(result.error).toBe("nope");
+      expect(result.error).toBeInstanceOf(Error);
+      expect(result.error.message).toBe("nope");
+    } else {
+      expect.unreachable();
+    }
+  });
+
+  it("accepts Error constructor options on a message string", () => {
+    const cause = new TypeError("root");
+    const result = Err("wrapped", { cause });
+
+    if (result.isNotOkay()) {
+      expect(result.error).toBeInstanceOf(Error);
+      expect(result.error.message).toBe("wrapped");
+      expect(result.error.cause).toBe(cause);
+    } else {
+      expect.unreachable();
+    }
+  });
+
+  it("accepts Error constructor options on an Error instance", () => {
+    const cause = new Error("root");
+    const result = Err(new TypeError("bad"), { cause });
+
+    if (result.isNotOkay()) {
+      expect(result.error).toBeInstanceOf(TypeError);
+      expect(result.error.message).toBe("bad");
+      expect(result.error.cause).toBe(cause);
     } else {
       expect.unreachable();
     }
   });
 
   it("returns the result upstream", () => {
-    const read = (): Result<string, Error> => Err(new Error("missing"));
+    const read = (): Result<string, Error> => Err("missing");
 
     const load = (): Result<string, Error> => {
       const file = read();

@@ -25,6 +25,7 @@ export function toError(cause: unknown): Error {
 
 /**
  * Prefer AggregateError so cleanup cannot hide the original failure.
+ * Both arguments are expected to already be {@link Error}s (map with {@link toError} upstream).
  *
  * @example
  * ```ts
@@ -35,6 +36,6 @@ export function toError(cause: unknown): Error {
  * // AggregateError with both causes
  * ```
  */
-export function combineErrors(primary: unknown, cleanup: unknown): AggregateError {
+export function combineErrors(primary: Error, cleanup: Error): AggregateError {
   return new AggregateError([primary, cleanup], "Operation failed and cleanup also threw");
 }

@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { fetch } from "../src/builtins/fetch.ts";
 import { unwrap } from "../src/builtins/inner.ts";
 import { Request } from "../src/builtins/request.ts";
 import { Response } from "../src/builtins/response.ts";
 import { URL } from "../src/builtins/url.ts";
-import { fetch } from "../src/index.ts";
 
 describe("fetch", () => {
   afterEach(() => {

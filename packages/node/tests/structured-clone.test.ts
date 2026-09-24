@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { structuredClone } from "../src/index.ts";
+import { structuredClone } from "../src/builtins/structured-clone.ts";
 
 describe("structuredClone", () => {
   it("returns ok for plain objects", () => {

@@ -100,13 +100,13 @@ const doWork = sure(
 ## API
 
 
-| Export                                    | Purpose                                                            |
-| ----------------------------------------- | ------------------------------------------------------------------ |
-| `Result` / `OkResult` / `ErrResult`       | Sync success or failure as data                                    |
-| `Ok(value)` / `Err(error)`                | Construct a `Result`                                               |
-| `sure(fn, options?)`                      | Unsure (throwing / rejecting) function → Result-returning function |
-| `toError(cause)`                          | Normalize any thrown / rejected value to `Error`                   |
-| `ResultAsync` / `ResultAsync.fromPromise` | Async wrapper; `await` → `Result`                                  |
+| Export                                    | Purpose                                                               |
+| ----------------------------------------- | --------------------------------------------------------------------- |
+| `Result` / `OkResult` / `ErrResult`       | Sync success or failure as data                                       |
+| `Ok(value)` / `Err(...)`                  | Construct a `Result`; `Err("msg", { cause })` / `Err(err, { cause })` |
+| `sure(fn, options?)`                      | Unsure (throwing / rejecting) function → Result-returning function    |
+| `toError(cause)`                          | Normalize any thrown / rejected value to `Error`                      |
+| `ResultAsync` / `ResultAsync.fromPromise` | Async wrapper; `await` → `Result`                                     |
 
 
 Thrown / rejected causes map with `toError` → `Result<T, Error>`. Reshape errors by extracting and `return Err(newError)`.

@@ -34,7 +34,7 @@ function trySync<T>(fn: () => T, onFail?: () => void): Result<T, Error> {
     try {
       onFail();
     } catch (cleanupCause: unknown) {
-      return Err(combineErrors(result.error, cleanupCause));
+      return Err(combineErrors(result.error, toError(cleanupCause)));
     }
   }
 
@@ -61,7 +61,7 @@ async function settleAsync<T>(
     try {
       await onFail();
     } catch (cleanupCause: unknown) {
-      return Err(combineErrors(result.error, cleanupCause));
+      return Err(combineErrors(result.error, toError(cleanupCause)));
     }
   }
 

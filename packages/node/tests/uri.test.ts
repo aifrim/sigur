@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { decodeURI, decodeURIComponent, encodeURI, encodeURIComponent } from "../src/index.ts";
+import {
+  decodeURI,
+  decodeURIComponent,
+  encodeURI,
+  encodeURIComponent,
+} from "../src/builtins/uri.ts";
 
 describe("URI", () => {
   it("decodeURI ok / err", () => {
