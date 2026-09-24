@@ -82,8 +82,3 @@ Each export matches a global that fails **outside** the normal return type (thro
 | `Response.from` / `error` / `redirect` / `json` | `Result<Response, Error>`; body readers → `ResultAsync`; `clone` → `Result` |
 | `Headers.from` | `Result<Headers, Error>`; mutators throw like native |
 | `fetch` | `ResultAsync<Response, Error>` (sigur `Response`; HTTP 4xx/5xx remain ok Results) |
-
-## See also
-
-- Monorepo & longer examples: [github.com/aifrim/sigur](https://github.com/aifrim/sigur)
-- Core `Result` / `sure`: [`@sigur/core`](https://www.npmjs.com/package/@sigur/core)

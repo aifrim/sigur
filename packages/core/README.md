@@ -110,9 +110,3 @@ const doWork = sure(
 
 
 Thrown / rejected causes map with `toError` → `Result<T, Error>`. Reshape errors by extracting and `return Err("…", { cause })` (or `Err(error)`).
-
-## See also
-
-- Monorepo & longer examples: [github.com/aifrim/sigur](https://github.com/aifrim/sigur)
-- Platform globals: `[@sigur/node](https://github.com/aifrim/sigur/tree/main/packages/node)`
-
