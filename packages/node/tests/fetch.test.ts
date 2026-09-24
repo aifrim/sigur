@@ -70,14 +70,15 @@ describe("fetch", () => {
 
     const urlResult = URL.from("https://example.com/path");
 
-    if (urlResult.isNotOkay()) {
+    if (!urlResult.isOkay()) {
       expect.unreachable();
+      return;
     }
 
     const result = await fetch(urlResult.value);
 
     expect(stub).toHaveBeenCalledOnce();
-    expect(stub.mock.calls[0]?.[0]).toBe(unwrap<globalThis.URL>(urlResult.value));
+    expect(stub).toHaveBeenCalledWith(unwrap<globalThis.URL>(urlResult.value));
 
     if (result.isOkay()) {
       expect(result.value).toBeInstanceOf(Response);
@@ -92,14 +93,15 @@ describe("fetch", () => {
 
     const requestResult = Request.from("https://example.com", { method: "POST" });
 
-    if (requestResult.isNotOkay()) {
+    if (!requestResult.isOkay()) {
       expect.unreachable();
+      return;
     }
 
     const result = await fetch(requestResult.value);
 
     expect(stub).toHaveBeenCalledOnce();
-    expect(stub.mock.calls[0]?.[0]).toBe(unwrap<globalThis.Request>(requestResult.value));
+    expect(stub).toHaveBeenCalledWith(unwrap<globalThis.Request>(requestResult.value));
 
     if (result.isOkay()) {
       expect(result.value).toBeInstanceOf(Response);
@@ -120,8 +122,7 @@ describe("fetch", () => {
     const result = await fetch("https://example.com", init);
 
     expect(stub).toHaveBeenCalledOnce();
-    expect(stub.mock.calls[0]?.[0]).toBe("https://example.com");
-    expect(stub.mock.calls[0]?.[1]).toBe(init);
+    expect(stub).toHaveBeenCalledWith("https://example.com", init);
 
     if (result.isOkay()) {
       expect(result.value).toBeInstanceOf(Response);

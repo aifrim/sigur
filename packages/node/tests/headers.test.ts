@@ -154,7 +154,7 @@ describe("Headers", () => {
   it("mutators throw when the underlying Headers is immutable", () => {
     const errorResponse = Response.error();
 
-    if (errorResponse.isNotOkay()) {
+    if (!errorResponse.isOkay()) {
       expect.unreachable();
       return;
     }
