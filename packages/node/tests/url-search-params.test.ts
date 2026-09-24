@@ -80,7 +80,7 @@ describe("URLSearchParams", () => {
   it("from returns err when native construction throws", () => {
     const result = URLSearchParams.from([["a"]] as unknown as string[][]);
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(TypeError);
     } else {
       expect.unreachable();

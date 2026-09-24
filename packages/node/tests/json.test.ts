@@ -15,7 +15,7 @@ describe("JSON", () => {
   it("parse returns err for invalid JSON", () => {
     const result = JSON.parse("{");
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(Error);
     } else {
       expect.unreachable();
@@ -38,7 +38,7 @@ describe("JSON", () => {
 
     const result = JSON.stringify(circular);
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(Error);
     } else {
       expect.unreachable();

@@ -20,8 +20,8 @@ Group by meaning, for example:
 const result = sure(() => {
 	throw "raw";
 })();
-expect(result.isNotOkay()).toBe(true);
-if (result.isNotOkay()) {
+expect(result.isErr()).toBe(true);
+if (result.isErr()) {
 	expect(result.error.message).toBe("raw");
 }
 
@@ -30,8 +30,8 @@ const result = sure(() => {
 	throw "raw";
 })();
 
-expect(result.isNotOkay()).toBe(true);
-if (result.isNotOkay()) {
+expect(result.isErr()).toBe(true);
+if (result.isErr()) {
 	expect(result.error.message).toBe("raw");
 }
 ```

@@ -91,7 +91,7 @@ const result = await ResultAsync.fromPromise(fetch("https://example.com"));
 At every call site, do **one** of:
 
 1. **Extract the value** — `isOkay()` then `.value`
-2. **Extract the error** — `isNotOkay()` then `.error`
+2. **Extract the error** — `isErr()` then `.error`
 3. **Return upstream** — `return result`
 
 Prefer positive checks so TypeScript narrows to `OkResult` / `ErrResult`. Also available: `instanceof OkResult` / `ErrResult` / `Result`.

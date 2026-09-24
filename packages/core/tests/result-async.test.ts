@@ -14,7 +14,7 @@ describe("ResultAsync", () => {
 
     const failure = await ResultAsync.fromPromise(Promise.reject(new Error("no")));
 
-    if (failure.isNotOkay()) {
+    if (failure.isErr()) {
       expect(failure.error).toBeInstanceOf(Error);
       expect(failure.error.message).toBe("no");
     } else {
@@ -46,7 +46,7 @@ describe("ResultAsync", () => {
 
     const result = await load();
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error.message).toBe("missing");
     } else {
       expect.unreachable();

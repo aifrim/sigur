@@ -16,7 +16,7 @@ describe("Result", () => {
       expect.unreachable();
     }
 
-    if (failure.isNotOkay()) {
+    if (failure.isErr()) {
       expect(failure.error.message).toBe("boom");
     } else {
       expect.unreachable();
@@ -33,10 +33,10 @@ describe("Result", () => {
     }
   });
 
-  it("extracts the error after isNotOkay", () => {
+  it("extracts the error after isErr", () => {
     const result: Result<number, Error> = Err("nope");
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(Error);
       expect(result.error.message).toBe("nope");
     } else {
@@ -48,7 +48,7 @@ describe("Result", () => {
     const cause = new TypeError("root");
     const result = Err("wrapped", { cause });
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(Error);
       expect(result.error.message).toBe("wrapped");
       expect(result.error.cause).toBe(cause);
@@ -61,7 +61,7 @@ describe("Result", () => {
     const cause = new Error("root");
     const result = Err(new TypeError("bad"), { cause });
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(TypeError);
       expect(result.error.message).toBe("bad");
       expect(result.error.cause).toBe(cause);
@@ -83,7 +83,7 @@ describe("Result", () => {
 
     const result = load();
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error.message).toBe("missing");
     } else {
       expect.unreachable();

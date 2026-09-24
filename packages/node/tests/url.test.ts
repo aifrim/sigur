@@ -29,7 +29,7 @@ describe("URL", () => {
   it("from returns err for garbage input", () => {
     const result = URL.from("not a url");
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(TypeError);
     } else {
       expect.unreachable();
@@ -50,7 +50,7 @@ describe("URL", () => {
   it("parse returns Invalid URL when native parse yields null", () => {
     const result = URL.parse("not a url");
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(TypeError);
       expect(result.error.message).toBe("Invalid URL");
     } else {

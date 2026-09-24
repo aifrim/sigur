@@ -18,7 +18,7 @@ describe("URI", () => {
 
     const errResult = decodeURI("%E0%A4%A");
 
-    if (errResult.isNotOkay()) {
+    if (errResult.isErr()) {
       expect(errResult.error).toBeInstanceOf(URIError);
     } else {
       expect.unreachable();
@@ -36,7 +36,7 @@ describe("URI", () => {
 
     const errResult = decodeURIComponent("%E0%A4%A");
 
-    if (errResult.isNotOkay()) {
+    if (errResult.isErr()) {
       expect(errResult.error).toBeInstanceOf(URIError);
     } else {
       expect.unreachable();
@@ -54,7 +54,7 @@ describe("URI", () => {
 
     const errResult = encodeURI("\uD800");
 
-    if (errResult.isNotOkay()) {
+    if (errResult.isErr()) {
       expect(errResult.error).toBeInstanceOf(URIError);
     } else {
       expect.unreachable();
@@ -72,7 +72,7 @@ describe("URI", () => {
 
     const errResult = encodeURIComponent("\uD800");
 
-    if (errResult.isNotOkay()) {
+    if (errResult.isErr()) {
       expect(errResult.error).toBeInstanceOf(URIError);
     } else {
       expect.unreachable();

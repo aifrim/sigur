@@ -75,7 +75,7 @@ describe("Request", () => {
   it("from returns err for invalid input", () => {
     const result = Request.from("not a url");
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(TypeError);
     } else {
       expect.unreachable();
@@ -244,7 +244,7 @@ describe("Request", () => {
 
       const second = await result.value.text();
 
-      if (second.isNotOkay()) {
+      if (second.isErr()) {
         expect(second.error).toBeInstanceOf(TypeError);
       } else {
         expect.unreachable();
@@ -280,7 +280,7 @@ describe("Request", () => {
 
       const cloneAfterUse = result.value.clone();
 
-      if (cloneAfterUse.isNotOkay()) {
+      if (cloneAfterUse.isErr()) {
         expect(cloneAfterUse.error).toBeInstanceOf(TypeError);
       } else {
         expect.unreachable();

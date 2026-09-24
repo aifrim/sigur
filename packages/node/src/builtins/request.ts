@@ -65,7 +65,7 @@ export class Request {
       return Ok(new Request(native.value));
     }
 
-    if (native.isNotOkay()) {
+    if (native.isErr()) {
       return Err(native.error);
     }
 
@@ -158,7 +158,7 @@ export class Request {
       return Ok(new Request(cloned.value));
     }
 
-    if (cloned.isNotOkay()) {
+    if (cloned.isErr()) {
       return Err(cloned.error);
     }
 

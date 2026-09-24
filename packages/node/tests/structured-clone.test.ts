@@ -17,7 +17,7 @@ describe("structuredClone", () => {
   it("returns err for non-cloneable values", () => {
     const result = structuredClone(() => 1);
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(Error);
     } else {
       expect.unreachable();

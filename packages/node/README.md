@@ -63,7 +63,7 @@ Each export matches a global that fails **outside** the normal return type (thro
 - `URL` uses a private constructor: `new` cannot return a `Result`, so use `URL.from` / `URL.parse`. Instance getters/setters match [MDN `URL`](https://developer.mozilla.org/en-US/docs/Web/API/URL) (`origin` / `searchParams` read-only). Setters throw like native. `canParse` / `revokeObjectURL` are thin forwards (no `Result`).
 - `URL`, `URLSearchParams`, `Request`, `Response`, and `Headers` are **not** subclasses of the native types. There is no public `.native` escape hatch; interop with `globalThis.fetch` and friends is handled inside the package.
 - Mutators on `Headers` / `URLSearchParams` throw like native when the underlying object rejects the operation.
-- Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows — see [`@sigurjs/core`](https://github.com/aifrim/sigur/tree/main/packages/core).
+- Prefer positive checks (`isOkay` / `isErr`) so TypeScript narrows — see [`@sigurjs/core`](https://github.com/aifrim/sigur/tree/main/packages/core).
 
 ## API
 

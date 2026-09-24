@@ -14,7 +14,7 @@ describe("sure", () => {
 
         const result = sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error).toBe(err);
         } else {
           expect.unreachable();
@@ -28,7 +28,7 @@ describe("sure", () => {
 
         const result = sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error).toBeInstanceOf(Error);
           expect(result.error.message).toBe("boom");
         } else {
@@ -43,7 +43,7 @@ describe("sure", () => {
 
         const result = sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error).toBeInstanceOf(Error);
           expect(result.error.message).toBe("Unknown error");
           expect(result.error.cause).toBe(42);
@@ -60,7 +60,7 @@ describe("sure", () => {
 
         const result = sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error.message).toBe("Unknown error");
           expect(result.error.cause).toBe(payload);
         } else {
@@ -78,7 +78,7 @@ describe("sure", () => {
 
         const result = await sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error).toBe(err);
         } else {
           expect.unreachable();
@@ -92,7 +92,7 @@ describe("sure", () => {
 
         const result = await sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error.message).toBe("async boom");
         } else {
           expect.unreachable();
@@ -106,7 +106,7 @@ describe("sure", () => {
 
         const result = await sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error.message).toBe("Unknown error");
           expect(result.error.cause).toBe(7);
         } else {
@@ -119,7 +119,7 @@ describe("sure", () => {
 
         const result = await sureFn();
 
-        if (result.isNotOkay()) {
+        if (result.isErr()) {
           expect(result.error.message).toBe("Unknown error");
           expect(result.error.cause).toEqual({ reason: "nope" });
         } else {
@@ -143,7 +143,7 @@ describe("sure", () => {
 
         const result = sureFn();
 
-        if (result.isNotOkay() && result.error instanceof AggregateError) {
+        if (result.isErr() && result.error instanceof AggregateError) {
           expect(result.error.errors).toHaveLength(2);
           expect(result.error.errors[0]).toBeInstanceOf(Error);
           expect(result.error.errors[0].message).toBe("work");
@@ -169,7 +169,7 @@ describe("sure", () => {
 
         const result = sureFn();
 
-        if (result.isNotOkay() && result.error instanceof AggregateError) {
+        if (result.isErr() && result.error instanceof AggregateError) {
           expect(result.error.errors).toHaveLength(2);
           expect(result.error.errors[0]).toBeInstanceOf(Error);
           expect(result.error.errors[0].message).toBe("work");
@@ -194,7 +194,7 @@ describe("sure", () => {
 
         const result = await sureFn();
 
-        if (result.isNotOkay() && result.error instanceof AggregateError) {
+        if (result.isErr() && result.error instanceof AggregateError) {
           expect(result.error.errors).toHaveLength(2);
           expect(result.error.errors[0]).toBeInstanceOf(Error);
           expect(result.error.errors[0].message).toBe("work");
@@ -220,7 +220,7 @@ describe("sure", () => {
 
         const result = await sureFn();
 
-        if (result.isNotOkay() && result.error instanceof AggregateError) {
+        if (result.isErr() && result.error instanceof AggregateError) {
           expect(result.error.errors).toHaveLength(2);
           expect(result.error.errors[0]).toBeInstanceOf(Error);
           expect(result.error.errors[0].message).toBe("work");
@@ -279,7 +279,7 @@ describe("sure", () => {
 
       const result = sureFn();
 
-      if (result.isNotOkay()) {
+      if (result.isErr()) {
         expect(result.error).toBeInstanceOf(Error);
         expect(result.error.message).toBe("boom");
       } else {
@@ -317,7 +317,7 @@ describe("sure", () => {
       }
 
       const bad = sureFn("{");
-      if (bad.isNotOkay()) {
+      if (bad.isErr()) {
         expect(bad.error).toBeInstanceOf(Error);
       } else {
         expect.unreachable();
@@ -341,7 +341,7 @@ describe("sure", () => {
       }
 
       const fail = await sureFn("missing");
-      if (fail.isNotOkay()) {
+      if (fail.isErr()) {
         expect(fail.error.message).toBe("ENOENT");
       } else {
         expect.unreachable();

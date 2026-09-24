@@ -56,7 +56,7 @@ describe("fetch", () => {
 
     const result = await fetch("https://example.com");
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(TypeError);
       expect(result.error.message).toBe("network down");
     } else {

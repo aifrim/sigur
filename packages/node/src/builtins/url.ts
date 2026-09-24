@@ -43,7 +43,7 @@ export class URL {
       return Ok(new URL(native.value));
     }
 
-    if (native.isNotOkay()) {
+    if (native.isErr()) {
       return Err(native.error);
     }
 

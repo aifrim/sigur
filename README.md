@@ -28,7 +28,7 @@ In JS/TS, failure often leaves the type system — functions throw, Promises rej
 Sigur turns exceptions into values. Fallible work returns a `Result`: okay (`OkResult`) or not okay (`ErrResult`). At every call site you do **one** of:
 
 1. **Extract the value** — `isOkay()` then `.value`
-2. **Extract the error** — `isNotOkay()` then `.error`
+2. **Extract the error** — `isErr()` then `.error`
 3. **Return upstream** — `return result`
 
 ```text
@@ -76,7 +76,7 @@ JSON.parse('{"a":1}'); // same idea, packaged
 - `sure(fn, { finally })` runs cleanup after a **failed** attempt; if cleanup also throws → `AggregateError`
 - Reshape errors by extracting and `return Err("…", { cause })`
 
-Prefer positive checks (`isOkay` / `isNotOkay`) so TypeScript narrows. Also available: `instanceof OkResult` / `ErrResult` / `Result`.
+Prefer positive checks (`isOkay` / `isErr`) so TypeScript narrows. Also available: `instanceof OkResult` / `ErrResult` / `Result`.
 
 Package API tables: `[@sigurjs/core](packages/core)` · `[@sigurjs/node](packages/node)`
 
@@ -124,13 +124,13 @@ function parseData(value: unknown): Result<Data, Error> {
 async function getData(url: string): Promise<Result<Data, Error>> {
   const response = await fetch(url);
 
-  if (response.isNotOkay()) {
+  if (response.isErr()) {
     return Err(`failed to fetch ${url}`, { cause: response.error });
   }
 
   const json = await response.value.json();
 
-  if (json.isNotOkay()) {
+  if (json.isErr()) {
     return Err("failed to parse response JSON", { cause: json.error });
   }
 

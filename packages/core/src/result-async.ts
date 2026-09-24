@@ -40,7 +40,7 @@ export class ResultAsync<T, E = Error> implements PromiseLike<Result<T, E>> {
    *   console.log(okResult.value);
    * }
    *
-   * if (errResult.isNotOkay()) {
+   * if (errResult.isErr()) {
    *   console.error(errResult.error);
    * }
    * ```
@@ -61,7 +61,7 @@ export class ResultAsync<T, E = Error> implements PromiseLike<Result<T, E>> {
    * construction paths normally catch causes into `ErrResult`; `onrejected` is only
    * for unexpected promise failures after that.
    *
-   * Prefer `const result = await resultAsync` then `isOkay` / `isNotOkay`.
+   * Prefer `const result = await resultAsync` then `isOkay` / `isErr`.
    */
   // biome-ignore lint/suspicious/noThenProperty: ResultAsync is intentionally thenable
   then<TResult1 = Result<T, E>, TResult2 = never>(

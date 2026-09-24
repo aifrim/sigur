@@ -33,7 +33,7 @@ describe("Response", () => {
   it("from returns err for invalid status", () => {
     const result = Response.from(null, { status: 9999 });
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(RangeError);
     } else {
       expect.unreachable();
@@ -93,7 +93,7 @@ describe("Response", () => {
     if (created.isOkay()) {
       const result = await created.value.json();
 
-      if (result.isNotOkay()) {
+      if (result.isErr()) {
         expect(result.error).toBeInstanceOf(Error);
       } else {
         expect.unreachable();
@@ -184,7 +184,7 @@ describe("Response", () => {
 
     const second = await wrapped.text();
 
-    if (second.isNotOkay()) {
+    if (second.isErr()) {
       expect(second.error).toBeInstanceOf(Error);
     } else {
       expect.unreachable();
@@ -226,7 +226,7 @@ describe("Response", () => {
 
       const cloned = created.value.clone();
 
-      if (cloned.isNotOkay()) {
+      if (cloned.isErr()) {
         expect(cloned.error).toBeInstanceOf(TypeError);
       } else {
         expect.unreachable();
@@ -262,7 +262,7 @@ describe("Response", () => {
   it("redirect static returns err for an invalid status", () => {
     const result = Response.redirect("https://example.com/", 200);
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(RangeError);
     } else {
       expect.unreachable();

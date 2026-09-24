@@ -4,10 +4,10 @@
  *
  * Use a `Result` for exactly one of:
  * 1. **Extract the value** — `isOkay()` then `.value`
- * 2. **Extract the error** — `isNotOkay()` then `.error`
+ * 2. **Extract the error** — `isErr()` then `.error`
  * 3. **Return it upstream** — `return result`
  *
- * Prefer positive checks (`isOkay` / `isNotOkay` with the matching branch) so TypeScript
+ * Prefer positive checks (`isOkay` / `isErr` with the matching branch) so TypeScript
  * narrows to {@link OkResult} / {@link ErrResult}; the false branch of a type predicate
  * does not narrow the abstract {@link Result} class.
  *
@@ -47,7 +47,7 @@
 export abstract class Result<T, E = Error> {
   abstract isOkay(): this is OkResult<T, E>;
 
-  abstract isNotOkay(): this is ErrResult<T, E>;
+  abstract isErr(): this is ErrResult<T, E>;
 }
 
 /**
@@ -66,13 +66,13 @@ export class OkResult<T, E = never> extends Result<T, E> {
     return true;
   }
 
-  isNotOkay(): this is ErrResult<T, E> {
+  isErr(): this is ErrResult<T, E> {
     return false;
   }
 }
 
 /**
- * Failed {@link Result} — extract {@link ErrResult.error} after {@link isNotOkay},
+ * Failed {@link Result} — extract {@link ErrResult.error} after {@link isErr},
  * or return the `Result` upstream. Construct with {@link Err}.
  */
 export class ErrResult<T = never, E = Error> extends Result<T, E> {
@@ -87,7 +87,7 @@ export class ErrResult<T = never, E = Error> extends Result<T, E> {
     return false;
   }
 
-  isNotOkay(): this is ErrResult<T, E> {
+  isErr(): this is ErrResult<T, E> {
     return true;
   }
 }

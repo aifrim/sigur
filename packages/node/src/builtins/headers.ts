@@ -55,7 +55,7 @@ export class Headers {
       return Ok(new Headers(native.value));
     }
 
-    if (native.isNotOkay()) {
+    if (native.isErr()) {
       return Err(native.error);
     }
 

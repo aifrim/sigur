@@ -83,7 +83,7 @@ describe("Headers", () => {
   it("from returns err for invalid init", () => {
     const result = Headers.from([["Invalid Name!", "value"]]);
 
-    if (result.isNotOkay()) {
+    if (result.isErr()) {
       expect(result.error).toBeInstanceOf(TypeError);
     } else {
       expect.unreachable();

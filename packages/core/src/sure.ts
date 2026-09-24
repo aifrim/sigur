@@ -30,7 +30,7 @@ function trySync<T>(fn: () => T, onFail?: () => void): Result<T, Error> {
     result = Err(toError(cause));
   }
 
-  if (onFail !== undefined && result.isNotOkay()) {
+  if (onFail !== undefined && result.isErr()) {
     try {
       onFail();
     } catch (cleanupCause: unknown) {
@@ -57,7 +57,7 @@ async function settleAsync<T>(
     result = Err(toError(cause));
   }
 
-  if (onFail !== undefined && result.isNotOkay()) {
+  if (onFail !== undefined && result.isErr()) {
     try {
       await onFail();
     } catch (cleanupCause: unknown) {

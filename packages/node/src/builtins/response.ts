@@ -50,7 +50,7 @@ export class Response {
       return Ok(new Response(native.value));
     }
 
-    if (native.isNotOkay()) {
+    if (native.isErr()) {
       return Err(native.error);
     }
 

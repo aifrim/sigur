@@ -55,7 +55,7 @@ export class URLSearchParams {
       return Ok(new URLSearchParams(native.value));
     }
 
-    if (native.isNotOkay()) {
+    if (native.isErr()) {
       return Err(native.error);
     }
 
